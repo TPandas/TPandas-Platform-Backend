@@ -1,5 +1,8 @@
 asgiref==3.2.7
+colorama==0.4.3
 Django==3.0.5
 djangorestframework==3.11.0
+loguru==0.4.1
 pytz==2020.1
 sqlparse==0.3.1
+win32-setctime==1.0.1
