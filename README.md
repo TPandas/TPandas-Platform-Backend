@@ -27,7 +27,7 @@ def test_function():
 test_function()
 ```
 捕获的错误日志如下：
-![image-20200501171726184](C:\Users\wf193\AppData\Roaming\Typora\typora-user-images\image-20200501171726184.png)
+![image-20200501171726184](https://github.com/TPandas/TPandas-Platform-Backend/blob/master/docs/readme.md/image-20200501171726184.png)
 
 
 
