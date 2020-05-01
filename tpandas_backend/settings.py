@@ -11,10 +11,27 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from loguru import logger
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
 
+# 加载日志配置
+# 日志等级: DEBUG,INFO,WARNING,ERROR
+LOG_LEVEL = 'DEBUG'
+SYS_LOG_FILE_PATH = os.path.join(LOGS_DIR, 'tpandas_{time}.log')
+logger.configure(
+    handlers=[
+        dict(sink=sys.stdout,
+             format='<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level:8}</level> | <blue>{thread}</blue> | <blue>{module}</blue>:<blue>{name}</blue>:<blue>{line}</blue> - <level>{message}</level>',
+             colorize=True, level=LOG_LEVEL),
+        dict(sink=SYS_LOG_FILE_PATH,
+             format='{time:YYYY-MM-DD HH:mm:ss.SSS} | {level:8} | {thread} | {module}:{name}:{line} - {message}',
+             level=LOG_LEVEL)
+    ]
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -25,8 +42,7 @@ SECRET_KEY = 'lblsoz9ar8h-7&fn72-98mp=^w+##tyu#z0@e3cqe*p&9py3xh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -69,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tpandas_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -79,7 +94,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -99,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -112,7 +125,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
