@@ -25,11 +25,11 @@ SYS_LOG_FILE_PATH = os.path.join(LOGS_DIR, 'tpandas_{time}.log')
 logger.configure(
     handlers=[
         dict(sink=sys.stdout,
-             format='<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level:8}</level> | <blue>{thread}</blue> | <blue>{module}</blue>:<blue>{name}</blue>:<blue>{line}</blue> - <level>{message}</level>',
+             format='<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level:8}</level> | <cyan>{thread}</cyan> | <cyan>{module}</cyan>:<cyan>{name}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>',
              colorize=True, level=LOG_LEVEL),
         dict(sink=SYS_LOG_FILE_PATH,
              format='{time:YYYY-MM-DD HH:mm:ss.SSS} | {level:8} | {thread} | {module}:{name}:{line} - {message}',
-             level=LOG_LEVEL)
+             level=LOG_LEVEL, encoding='utf-8')
     ]
 )
 
@@ -130,3 +130,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
