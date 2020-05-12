@@ -8,39 +8,36 @@
 -----------------   ---------   ---------   ---------------------
 2020/5/4 18:37     Breeze      0.0.1       None     
 """
-from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets, permissions
 from managements.model_serializers.manage_serializers import ProjectSerializer
 from managements.models.manage_model import ProjectModel
 
 
-class ProjectView(APIView):
-    def get(self, request):
-        project_obj = ProjectModel.objects.all()
-        serializer = ProjectSerializer(project_obj, many=True)
-        return Response(serializer)
-
-    def post(self, request):
-        client_data = request.data
-        verified_data = ProjectSerializer(data=client_data, many=False)
-
-        if verified_data.is_valid():
-            verified_data.save()
-        else:
-            return Response(verified_data.errors)
-        return Response(verified_data.data)
+class ProjectView(viewsets.ModelViewSet):
+    """
+        list:
+            查看所有项目
+        create:
+            添加新项目
+    """
+    authentication_classes = ()
+    permission_classes = (permissions.AllowAny,)
+    queryset = ProjectModel.objects.all()
+    serializer_class = ProjectSerializer
 
 
-class ProjectDetailedView(APIView):
-    def get(self, request, pid):
-        pass
-
-    def post(self, request, pid):
-        pass
-
-    def put(self, request, pid):
-        pass
-
-    def delete(self, request, pid):
-        pass
+class ProjectDetailsView(viewsets.ModelViewSet):
+    """
+        retrieve:
+            查询项目
+        delete:
+            删除项目
+        update:
+            更新项目
+    """
+    authentication_classes = ()
+    permission_classes = (permissions.AllowAny,)
+    queryset = ProjectModel.objects.all()
+    serializer_class = ProjectSerializer
