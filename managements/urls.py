@@ -13,8 +13,8 @@ from django.urls import path, re_path
 from managements.views import manage_view
 from tpandas_backend.urls import router
 
-router.register(r'project', manage_view.ProjectView, basename='project')
-router.register(r'project_details', manage_view.ProjectDetailsView, basename='project_details')
+# router.register(r'project', manage_view.ProjectView, basename='project')
+# router.register(r'project_details', manage_view.ProjectDetailsView, basename='project_details')
 
 urlpatterns = [
     path('project', manage_view.ProjectView.as_view({'get': 'list', 'post': 'create'})),

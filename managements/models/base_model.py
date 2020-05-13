@@ -11,12 +11,21 @@
 from django.db import models
 
 
-class BaseModel(models.Model):
-    create_auth = models.CharField(max_length=20, verbose_name='创建者')
-    update_auth = models.CharField(max_length=20, verbose_name='修改者')
+class BaseTimeModel(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='修改时间')
 
     class Meta:
         abstract = True
-        verbose_name = '公共字段'
+        verbose_name = '基础时间字段'
+        # 减号代表倒序排列
+        ordering = ['-update_time']
+
+
+class BaseActionUserModel(models.Model):
+    update_auth = models.ForeignKey(to='accounts.UserProfile', on_delete=models.CASCADE, verbose_name='修改者')
+    create_auth = models.ForeignKey(to='accounts.UserProfile', on_delete=models.CASCADE, verbose_name='创建者')
+
+    class Meta:
+        abstract = True
+        verbose_name = '操作用户字段'

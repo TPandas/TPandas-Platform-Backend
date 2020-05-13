@@ -10,10 +10,10 @@
 """
 from django.db import models
 
-from managements.models.base_model import BaseModel
+from managements.models.base_model import BaseActionUserModel, BaseTimeModel
 
 
-class CaseModel(BaseModel):
+class CaseModel(BaseActionUserModel, BaseTimeModel):
     """
     测试用例
     """
@@ -25,8 +25,12 @@ class CaseModel(BaseModel):
     # 外键
     project = models.ForeignKey(to='ProjectModel', on_delete=models.CASCADE, verbose_name='所属项目')
 
+    class Meta:
+        db_table = 'manage_case'
+        verbose_name = '测试用例'
 
-class TestDataModel(BaseModel):
+
+class TestDataModel(BaseActionUserModel, BaseTimeModel):
     """
     测试数据
     """
@@ -38,8 +42,12 @@ class TestDataModel(BaseModel):
     case = models.ForeignKey(to='CaseModel', on_delete=models.CASCADE, verbose_name='测试用例')
     env = models.ForeignKey(to='EnvModel', on_delete=models.CASCADE, verbose_name='项目环境')
 
+    class Meta:
+        db_table = 'manage_test'
+        verbose_name = '测试数据'
 
-class GlobalsDataModel(BaseModel):
+
+class GlobalsDataModel(BaseActionUserModel, BaseTimeModel):
     """
     公共环境参数
     """
@@ -49,8 +57,12 @@ class GlobalsDataModel(BaseModel):
     # 外键
     env = models.ForeignKey(to='EnvModel', on_delete=models.CASCADE, verbose_name='项目环境')
 
+    class Meta:
+        db_table = 'manage_globals'
+        verbose_name = '公共环境参数'
 
-class CaseDateModel(BaseModel):
+
+class CaseDateModel(BaseActionUserModel, BaseTimeModel):
     """
     用例与数据关联表
     """
@@ -58,16 +70,24 @@ class CaseDateModel(BaseModel):
     test_case = models.ForeignKey(to='CaseModel', on_delete=models.CASCADE)
     test_data = models.ForeignKey(to='TestDataModel', on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = 'manage_case_data'
+        verbose_name = '用例与数据关联表'
 
-class ByTypeModel(BaseModel):
+
+class ByTypeModel(BaseActionUserModel, BaseTimeModel):
     """
     页面元素类型
     """
     id_ = models.AutoField(primary_key=True, db_index=True, name='id', verbose_name='定位器类型ID')
     by_locator_type = models.CharField(max_length=40, verbose_name='定位器类型名称')
 
+    class Meta:
+        db_table = 'manage_by_type'
+        verbose_name = '页面元素类型'
 
-class PageObjectModel(BaseModel):
+
+class PageObjectModel(BaseActionUserModel, BaseTimeModel):
     """
     页面元素对象
     """
@@ -79,8 +99,12 @@ class PageObjectModel(BaseModel):
     # 外键
     by_type = models.ForeignKey(to='ByTypeModel', on_delete=models.CASCADE, verbose_name='定位类型')
 
+    class Meta:
+        db_table = 'manage_page_object'
+        verbose_name = '页面元素对象'
 
-class ProjectModel(BaseModel):
+
+class ProjectModel(BaseActionUserModel, BaseTimeModel):
     """
     测试项目
     """
@@ -90,13 +114,21 @@ class ProjectModel(BaseModel):
     desc = models.TextField(verbose_name='项目描述')
     start_time = models.DateTimeField(verbose_name='项目开始时间')
     end_time = models.DateTimeField(verbose_name='项目结束时间')
-    leader = models.CharField(max_length=40, verbose_name='项目负责人')
+    leader = models.ForeignKey(to='accounts.UserProfile', on_delete=models.CASCADE, verbose_name='项目负责人')
+
+    class Meta:
+        db_table = 'manage_project'
+        verbose_name = '测试项目'
 
 
-class EnvModel(BaseModel):
+class EnvModel(BaseActionUserModel, BaseTimeModel):
     """
     项目环境
     """
     id_ = models.AutoField(primary_key=True, db_index=True, name='id', verbose_name='环境ID')
     name = models.CharField(max_length=30, verbose_name='环境名称')
     desc = models.TextField(verbose_name='环境描述')
+
+    class Meta:
+        db_table = 'manage_env'
+        verbose_name = '项目环境'
